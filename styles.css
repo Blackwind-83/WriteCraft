@@ -1,8 +1,312 @@
 /*
-
 This CSS file will be included with your plugin, and
 available in the app when your plugin is enabled.
 
 If your plugin does not need CSS, delete this file.
-
 */
+
+
+/*
+--background-primary: Couleur de fond primaire
+--background-primary-alt:  Couleur de fond secondaire alternative
+--background-secondary:  Couleur de fond secondaire
+--background-secondary-alt: Couleur de fond secondaire alternative avec opacité
+--text-normal: Couleur du texte normal
+--text-faint: Couleur du texte peu intense
+--text-link: Couleur des liens
+--text-a: Couleur du texte de type A (lien)
+--text-a-hover: Couleur au survol d'un lien de type A
+--text-mark: Couleur des éléments marqués
+--pre-code: Couleur de fond pour le code
+--text-highlight-bg: Couleur de fond pour les textes surlignés
+--interactive-accent: Couleur d'accent pour les éléments interactifs
+--interactive-before: Couleur d'accent avant pour les éléments interactifs
+--background-modifier-border: Couleur de bordure pour les modificateurs de fond
+--blockquote-border: Couleur des bordures des blockquotes
+--text-accent: Couleur d'accent pour le texte
+--interactive-accent-rgb: Représentation RGB de la couleur d'accent interactif
+
+--text-color-code: Couleur pour les éléments de code
+--text-title-h1: Couleur pour les titres H1
+--text-title-h2: Couleur pour les titres H2
+--text-title-h3: Couleur pour les titres H3
+--text-title-h4: Couleur pour les titres H4
+--text-title-h5: Couleur pour les titres H5
+--text-title-h6: Couleur pour les titres H6
+--text-muted: Couleur pour le texte atténué
+--text-faint: Couleur pour un texte très atténué
+--font-heading-normaized: Taille normalisée des titres
+--heading-symbol-size: Taille des symboles d'en-tête
+--font-family-editor: Police pour l'éditeur
+--font-family-preview: Police pour l'aperçu
+*/
+
+
+/* Container principal */
+#writecraft-block {
+    font-family: 'Arial', serif !important;
+    line-height: 1.6;
+}
+
+#writecraft-block .form-container {
+    border: 2px solid var(--text-muted);
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--background-secondary-alt);
+}
+
+#writecraft-block .name-container {
+    text-align: center;
+    width: 100%;
+    display: block;
+    font-weight: bold;
+    font-size: 30px;
+    border-bottom: 1px solid var(--text-normal);
+    padding-bottom: 3px;
+    margin-bottom: 20px;
+}
+
+/* Accordéon */
+#writecraft-block details {
+    border: 1px solid var(--text-muted);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    background-color: var(--background-secondary);
+}
+
+#writecraft-block summary {
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid var(--text-muted);
+    color: var(--text-muted);
+    background-color: var(--background-secondary-alt);
+}
+
+#writecraft-block details[open] summary {
+    color: var(--text-muted);
+    background-color: var(--background-secondary);
+}
+
+/* Animation fade-in */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#writecraft-block fieldset {
+    border: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* FORMULAIRES */
+
+/* Alignement horizontal des champs texte et des boutons radio */
+#writecraft-block .form-group.text,
+#writecraft-block .form-group.radio {
+    display: flex;
+}
+
+#writecraft-block .radio-group  {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Deux colonnes égales */
+    gap: 10px; /* Espacement entre les paires */
+    padding: 0;
+    list-style-type: none; /* Supprime les puces */
+}
+
+
+#writecraft-block .checkbox-group  {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Deux colonnes égales */
+    gap: 10px; /* Espacement entre les paires */
+    padding: 0;
+    list-style-type: none; /* Supprime les puces */
+    margin: 5px 0;
+}
+
+
+#writecraft-block .form-group {
+    margin-bottom: 10px; /* Ajuste la valeur selon l'espace souhaité */
+    background-color: var(--background-secondary);
+}
+
+#writecraft-block .form-group input[type="text"] {
+    flex-grow: 1;  /* Le champ texte prend toute la largeur restante */
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid var(--text-muted);
+    box-sizing: border-box;
+    background-color: var(--background-secondary-alt);
+}
+
+/* Labels */
+#writecraft-block .form-group label {
+    font-weight: bold;
+    margin-right: 10px; /* Espacement entre label et champ */
+}
+
+/* Champs textarea */
+#writecraft-block .form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+    width: 100%; /* Occupe toute la largeur */
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid var(--text-muted);
+    box-sizing: border-box;
+    margin-top: 5px;
+    background-color: var(--background-secondary-alt);
+}
+
+/* Conteneur de l'image, centré et prenant toute la largeur */
+#writecraft-block .image-container {
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+
+/* Conteneur de l'image et du bouton de suppression */
+#writecraft-block .image-container-image {
+    position: relative;
+    display: inline-block;
+}
+
+/* Bouton de suppression positionné en haut à droite */
+#writecraft-block .delete-sheet-image {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: transparent;
+    border: none;
+    font-size: 15px;
+    padding: 5px;
+    cursor: cursor;
+    z-index: 10;
+}
+
+/* Style de l'image */
+#writecraft-block .image-container img {
+    width: 175px; /* L'image prend la largeur maximale possible */
+    height: auto;
+    border: 2px solid var(--text-muted);
+    object-fit: cover;
+    cursor: pointer;
+    margin-bottom: 15px; /* Ajoute un espace sous l'image */
+}
+
+
+#writecraft-block .grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Deux colonnes égales */
+    gap: 10px; /* Espacement entre les paires */
+    padding: 0;
+    list-style-type: none; /* Supprime les puces */
+}
+
+#writecraft-block .child-entry {
+    display: flex;
+    flex-direction: 1;
+    gap: 5px;
+    align-items: center; /* Aligne les éléments verticalement */;
+}
+
+#writecraft-block .child-entry input {
+    min-width: 0;
+    flex-grow: 1;
+}
+
+#writecraft-block .btn-list {
+    font-size: 0.75em;
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    flex-shrink: 0; /* Empêche le bouton de rétrécir */
+    padding: 0px;
+    white-space: nowrap; /* Empêche le texte du bouton de se casser */
+}
+
+/* Conteneur des images avec un cadre bien visible */
+.image-picker-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid var(--text-muted); /* Cadre plus visible */
+    border-radius: 10px;
+    overflow-y: scroll;    
+    height: 50%; /* Prend toute la hauteur disponible */
+    min-height: 0; /* Important pour que la hauteur soit bien calculée */
+    overflow-y: auto; /* Permet le défilement si nécessaire */
+}
+
+div .image-picker-search {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid var(--text-muted) !important;
+    border-radius: 5px; /* Bordure arrondie */
+    background-color: var(--background-secondary);
+    color: var(--text-normal);
+    font-size: 14px;
+    box-sizing: border-box; /* Assure que la bordure ne déforme pas la taille de l'input */
+}
+
+
+/* Style des images */
+.image-option {
+    width: 70px;
+    height: 70px;
+    border: 3px solid var(--background-modifier-border);
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, border 0.2s;
+}
+
+/* Effet interactif au survol */
+.image-option:hover {
+    transform: scale(1.1);
+    border: 3px solid var(--text-muted);
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    width: 60vh;
+    height: 40vh; /* Taille initiale pour éviter que la modale soit trop grande */
+    min-height: 200px; /* Évite une modale trop petite */
+}
+
+.modal h2 {
+    color: var(--text-muted);  /* Couleur du texte principal */
+    font-weight: bold;
+    font-size: 18px;
+    border-bottom: 2px solid var(--background-modifier-border);  /* Séparateur sous le titre */
+    padding: 10px;
+    background-color: var(--background-primary);  /* Fond derrière le titre */
+}
+
+.image-picker-search:focus {
+    outline: none; /* Désactive le contour par défaut */
+    box-shadow: none !important; /* Enlève l'effet de flou (shadow) sur focus */
+}
+
+#writecraft-block .category-legend {
+    font-weight: bold;
+    font-size: 25px;
+    color: var(--text-muted);
+    padding-bottom: 8px;
+    margin-top: 15px;
+    border-bottom: 1px solid var(--text-normal);
+}
+
+#writecraft-block h2 {
+    font-size: 1.5em;
+    color: var(--text-accent);
+    margin-bottom: 16px;
+}

@@ -1,0 +1,44 @@
+``` writecraft
+character_form form ( label="Formulaire personnage" )
+{
+	location_list datalist ( tag="sheet-location" )
+	fruits_list datalist ( values=["Abricot", "Poire", "Citron", "Pomme", "Banane"] )
+
+	image image (source="_images" ; default="_writecraft/unknown.jpg")
+
+	marital_status_cat category ( label="🏛️ Etat civil" )
+	{
+	    gender radio (label="Sexe" ; options=["Masculin","Féminin"])
+	    name text (label="Nom" ; placeholder="Entrez le nom du personnage")
+	    lieu text (label="Lieu" ; placeholder="Choisir un lieu" ; datalist="location_list" ; link=true)
+	    work text (label="Métier" ; placeholder="Choisir un métier" ; concept="location")
+	    fruits list (label="Fruits"; placeholder="Entrez le nom du fruit"; datalist="fruits_list")
+	    monsters checkbox (label="Monstre" ; options=["Scales","Horns", "eyes", "tail", "blabla", "weird", "legs", "ears","blabla", "weird", "legs", "ears"])
+	    
+	    location list (label="Lieu"; placeholder="Choisissez un lieu"; datalist="location_list" ; link=true)
+	}
+	
+	context_cat category ( label="🌍 Contexte" )
+	{
+	    backstory textarea (label="Histoire" ; placeholder="Décris ton personnage ici..." ; rows=4)
+	    motive textarea (label="Motivation" ; placeholder="Qu'est-ce qui pousse ce personnage à agir ?" ; rows=3)
+	}
+	
+	power_cat category ( label="🦹 Pouvoirs" )
+	{
+	    powers textarea (label="Pouvoirs" ; placeholder="Quels sont les pouvoirs de ce personnage ?" ; rows=3)
+	    weakness textarea (label="Faiblesses" ; placeholder="Quelles sont les faiblesses de ce personnage ?" ; rows=3)
+	}
+	
+	goal_cat category ( label="🎯 Objectifs" )
+	{
+	    goal text (label="Objectif principal" ; placeholder="Quel est l'objectif principal de ce personnage ?")
+	    secondary_goals textarea (label="Objectifs secondaires" ; placeholder="Quels sont les objectifs secondaires de ce personnage ?" ; rows=3)
+	}
+	
+	other_cat category ( label="🎲 Autres notes" )
+	{
+		other_notes textarea (label="Notes diverses" ; placeholder="Ajouter d'autres informations utiles pour le personnage" ; rows=4)
+	}
+}
+```

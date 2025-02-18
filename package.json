@@ -6,19 +6,31 @@
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
 		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"build-rollup": "rollup --config",
 		"version": "node version-bump.mjs && git add manifest.json versions.json"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "MIT",
+	"dependencies": {
+		"js-yaml": "^4.1.0",
+		"jsplumb": "^2.15.6",
+		"obsidian-dataview": "^0.5.67",
+		"yaml": "^2.7.0"
+	},
 	"devDependencies": {
-		"@types/node": "^16.11.6",
+		"@rollup/plugin-typescript": "^12.1.2",
+		"@types/js-yaml": "^4.0.9",
+		"@types/node": "^16.18.125",
 		"@typescript-eslint/eslint-plugin": "5.29.0",
 		"@typescript-eslint/parser": "5.29.0",
 		"builtin-modules": "3.3.0",
 		"esbuild": "0.17.3",
-		"obsidian": "latest",
+		"obsidian": "^1.7.2",
+		"rollup": "^2.79.2",
+		"rollup-plugin-copy": "^3.5.0",
+		"rollup-plugin-terser": "^7.0.2",
 		"tslib": "2.4.0",
-		"typescript": "4.7.4"
+		"typescript": "^5.7.3"
 	}
 }
