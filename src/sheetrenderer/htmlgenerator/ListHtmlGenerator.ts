@@ -1,7 +1,7 @@
 import { TFile } from "obsidian";
 import NovelPlugin from "src/main";
-import { FilePropertyManager } from "../../property/FilePropertyManager";
-import { Utils } from "src/Utils";
+import { FilePropertyUtils } from "src/utils/FilePropertyUtils";
+import { Utils } from "src/utils/Utils";
 import { HtmlGenerator } from "./HtmlGenerator";
 import { FormItem } from "../parser/WriteCraftItem";
 
@@ -38,7 +38,7 @@ export class ListHtmlGenerator extends HtmlGenerator {
         let content ="";
     
         // Récupérer les éléments de la liste
-        const eltList = await FilePropertyManager.readProperty(this.file, id) as string[];
+        const eltList = await FilePropertyUtils.readProperty(this.file, id) as string[];
     
         if (eltList) {
             // Formater les éléments en fonction du type (texte simple ou lien)
@@ -66,7 +66,7 @@ export class ListHtmlGenerator extends HtmlGenerator {
         console.log("initializeSelf list : " + this.formItem.id)
         const field = blocHtml.querySelector(`#${this.formItem.id}`) as HTMLDivElement;
         
-        const eltList = (await FilePropertyManager.readProperty(this.file, field.id) || []) as string[];
+        const eltList = (await FilePropertyUtils.readProperty(this.file, field.id) || []) as string[];
 
         // Initialize the field on the page loading
         eltList.forEach((elt: string) => {
@@ -134,7 +134,7 @@ export class ListHtmlGenerator extends HtmlGenerator {
 
     private async updateProperty(file: TFile, field: HTMLDivElement) {
         const listElt = this.getEltList(field);
-        await FilePropertyManager.updateProperty(file, field.id, listElt);
+        await FilePropertyUtils.updateProperty(file, field.id, listElt);
     }
 
     private getEltList(field: HTMLDivElement): string[] {

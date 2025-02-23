@@ -1,8 +1,8 @@
 import { TFile, Notice } from "obsidian";
 import NovelPlugin from "src/main";
 import { ImagePickerModal } from "../component/ImagePickerModal";
-import { FilePropertyManager } from "../../property/FilePropertyManager";
-import { Utils } from "src/Utils";
+import { FilePropertyUtils } from "src/utils/FilePropertyUtils";
+import { Utils } from "src/utils/Utils";
 import { HtmlGenerator, HtmlMode } from "./HtmlGenerator";
 import { FormItem } from "../parser/WriteCraftItem";
 
@@ -36,7 +36,7 @@ export class ImageHtmlGenerator extends HtmlGenerator {
         let content = "";
 
         // Lire la valeur stockée dans le fichier
-        const imagePath = await FilePropertyManager.readProperty(this.file, id) || defaultImg;
+        const imagePath = await FilePropertyUtils.readProperty(this.file, id) || defaultImg;
         if (imagePath) {
             const fileImg = this.plugin.app.vault.getAbstractFileByPath(imagePath.toString()) as TFile;
             if (fileImg instanceof TFile) {
@@ -74,7 +74,7 @@ export class ImageHtmlGenerator extends HtmlGenerator {
 
             const modal = new ImagePickerModal(this.plugin, images, async (selectedImage) => {
                 console.log("Image sélectionnée :", selectedImage.path);
-                await FilePropertyManager.updateProperty(this.file, fieldImg.id, selectedImage.path);
+                await FilePropertyUtils.updateProperty(this.file, fieldImg.id, selectedImage.path);
                 await this.displayImage(fieldImg);
             });
 
@@ -86,7 +86,7 @@ export class ImageHtmlGenerator extends HtmlGenerator {
         if (deleteBtn && deleteBtn instanceof HTMLButtonElement) {
             Utils.addDebouncedEventListener(deleteBtn, "click", async () => {
                 console.log("Suppression de l'image");
-                await FilePropertyManager.updateProperty(this.file, fieldImg.id, "");
+                await FilePropertyUtils.updateProperty(this.file, fieldImg.id, "");
                 await this.displayImage(fieldImg);
             });
         }
@@ -101,7 +101,7 @@ export class ImageHtmlGenerator extends HtmlGenerator {
     }    
 
     private async displayImage(fieldImg: HTMLImageElement) {
-        let imagePath = await FilePropertyManager.readProperty(this.file, fieldImg.id) || fieldImg.dataset.default;
+        let imagePath = await FilePropertyUtils.readProperty(this.file, fieldImg.id) || fieldImg.dataset.default;
         try {
             if (imagePath) {
                 const fileImg = this.plugin.app.vault.getAbstractFileByPath(imagePath.toString());

@@ -1,53 +1,38 @@
-import { MarkdownPostProcessorContext, MarkdownView, Modal, Notice, Plugin, setIcon, TFile } from "obsidian";
-import { NovelMenuUI } from "./novel/NovelMenuUI";
-import { ContextMenuUI } from "./sheetgenerator/ContextMenuUI"
-
-import * as path from "path";
+import { Plugin, TFile } from "obsidian";
+import { ModelGenerator } from "./features/createnewmodel/component/ModelGenerator";
 import { SheetRenderer } from "./sheetrenderer/SheetRenderer";
 import { Logger } from "./logger/Logger";
-import { WritecraftState } from "./WritecraftState";
+import { WritecraftState } from "./sheetrenderer/WritecraftState";
+import { SheetGenerator } from "./features/createnewsheet/SheetGenerator";
+import { ModelContainerGenerator } from "./features/createnewmodelcontainer/ModelContainerGenerator";
 
 export default class NovelPlugin extends Plugin {
-    private novelMenuUI: NovelMenuUI | null = null;
-    private contextMenuUI: ContextMenuUI | null = null;
-    private conceptEditProcessor: SheetRenderer | null = null;
+    private modelContainerGenerator: ModelContainerGenerator | null = null;
+    private modelGenerator: ModelGenerator | null = null;
+    private sheetGenerator: SheetGenerator | null = null;
+    private sheetRenderer: SheetRenderer | null = null;
 
     async onload() {
 
-        Logger.setLevel(Logger.levels.DEBUG); // Set the desired log level
+        Logger.setLevel(Logger.levels.DEBUG);
         Logger.info("Loading WriteCraft Plugin...");
 
         WritecraftState.getInstance().initialize(this);
 
-        // Initialize UI components
-        this.novelMenuUI = new NovelMenuUI(this);
-        this.novelMenuUI.load();
-        this.contextMenuUI = new ContextMenuUI(this);
-        this.contextMenuUI.load();
-        this.conceptEditProcessor = new SheetRenderer(this);
-        this.conceptEditProcessor.initialize();
+        // Initialize components
+        this.modelContainerGenerator = new ModelContainerGenerator(this);
+        this.modelContainerGenerator.initialize();
+        this.modelGenerator = new ModelGenerator(this);
+        this.modelGenerator.initialize();
+        this.sheetGenerator = new SheetGenerator(this);
+        this.sheetGenerator.initialize();
+        this.sheetRenderer = new SheetRenderer(this);
+        this.sheetRenderer.initialize();
     }
 
     onunload() {
         Logger.info("Unloading Novel Plugin...");
-        this.novelMenuUI?.unload();
-    }
-
-    getDir(): string {
-        const basePath = (this.app.vault.adapter as any).getBasePath(); // Utiliser getBasePath()
-        if (this.manifest.dir) {
-            return path.join(basePath, this.manifest.dir);
-        } else {
-            throw new Error("Le path du répertoire d'installation du plugin est introuvable.");
-        }
-    }
-    /** Register a markdown post processor with the given priority. */
-    public registerPriorityMarkdownPostProcessor(
-        priority: number,
-        processor: (el: HTMLElement, ctx: MarkdownPostProcessorContext) => Promise<void>
-    ) {
-        let registered = this.registerMarkdownPostProcessor(processor);
-        registered.sortOrder = priority;
+        this.modelGenerator?.unload();
     }
 
     async convertImagePathToUrl(imageFile: TFile): Promise<string> {

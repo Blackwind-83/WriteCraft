@@ -1,16 +1,14 @@
 import { TAbstractFile, TFile } from "obsidian";
 import NovelPlugin from "src/main";
-import { ModelReader } from "src/model/ModelManager";
-import { FormParser as WriteCraftCodeParser } from "./parser/WriteCraftSyntaxParser";
-import { FilePropertyManager } from "../property/FilePropertyManager";
+import { WriteCraftSyntaxParser as WriteCraftCodeParser } from "./parser/WriteCraftSyntaxParser";
+import { FilePropertyUtils } from "../utils/FilePropertyUtils";
 import { Logger } from "../logger/Logger";
 import { HtmlGeneratorFactory as HtmlGeneratorFactory } from "./htmlgenerator/HtmlGeneratorFactory";
-import { WritecraftMode, WritecraftState } from "src/WritecraftState";
 import { FormItem } from "./parser/WriteCraftItem";
+import { WritecraftMode, WritecraftState } from "./WritecraftState";
 
 export class SheetRenderer {
     private plugin: NovelPlugin;
-    private modelReader: ModelReader;
     private writeCraftCodeParser: WriteCraftCodeParser;
     private formHTML: FormItem | null | undefined;
     private file: TAbstractFile | null;
@@ -18,10 +16,8 @@ export class SheetRenderer {
 
     constructor(plugin: NovelPlugin) {
         this.plugin = plugin;
-        this.modelReader = new ModelReader(this.plugin);
-        this.modelReader.loadModel();
         this.writeCraftCodeParser = new WriteCraftCodeParser();
-        new FilePropertyManager(this.plugin); // Initialize the static plugin reference
+        new FilePropertyUtils(this.plugin); // Initialize the static plugin reference
     }
 
     initialize() {
@@ -58,8 +54,6 @@ export class SheetRenderer {
             
             // Vérification du Promise avant de continuer
             const formHTML = await generator.generate();  // Attendre le résultat de la génération
-
-            console.log("Generated HTML:", formHTML);  // Pour vérifier le contenu généré
     
             // On peut maintenant utiliser formHTML sans problème, une fois la Promise résolue
             this.page.innerHTML = formHTML;

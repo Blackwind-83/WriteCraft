@@ -1,7 +1,7 @@
 import { TFile } from "obsidian";
 import NovelPlugin from "src/main";
-import { FilePropertyManager } from "../../property/FilePropertyManager";
-import { Utils } from "src/Utils";
+import { FilePropertyUtils } from "src/utils/FilePropertyUtils";
+import { Utils } from "src/utils/Utils";
 import { HtmlGenerator } from "./HtmlGenerator";
 import { FormItem } from "../parser/WriteCraftItem";
 
@@ -39,7 +39,7 @@ export class RadioHtmlGenerator extends HtmlGenerator {
         let content = "";
     
         // Récupérer la valeur sélectionnée depuis le fichier
-        const selectedValue = await FilePropertyManager.readProperty(this.file, id);
+        const selectedValue = await FilePropertyUtils.readProperty(this.file, id);
     
         if (selectedValue) {
             // Trouver le label correspondant à la valeur sélectionnée
@@ -63,12 +63,12 @@ export class RadioHtmlGenerator extends HtmlGenerator {
                 const field = blocHtml.querySelector(`#${this.formItem.id}-${option}-btn`) as HTMLInputElement;
 
                 // Initialize the field on the page loading
-                field.checked = (await FilePropertyManager.readProperty(this.file, this.formItem.id)) === field.value;
+                field.checked = (await FilePropertyUtils.readProperty(this.file, this.formItem.id)) === field.value;
 
                 // Add a listener to update the property when the field is modified
                 Utils.addDebouncedEventListener(field, "change", async () => {
                     if (field.checked) {
-                        await FilePropertyManager.updateProperty(this.file, this.formItem.id, field.value);
+                        await FilePropertyUtils.updateProperty(this.file, this.formItem.id, field.value);
                     }
                 });
             });

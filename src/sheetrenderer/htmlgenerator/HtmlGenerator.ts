@@ -2,7 +2,7 @@ import NovelPlugin from "src/main";
 import { FormItem } from "../parser/WriteCraftItem";
 import { HtmlGeneratorFactory } from "./HtmlGeneratorFactory";
 import { TFile } from "obsidian";
-import { WritecraftMode, WritecraftState } from "src/WritecraftState";
+import { WritecraftMode, WritecraftState } from "../WritecraftState";
 
 export enum HtmlMode {
     FORM,

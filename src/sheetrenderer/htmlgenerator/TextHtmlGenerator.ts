@@ -1,7 +1,7 @@
 import { TFile } from "obsidian";
 import NovelPlugin from "src/main";
-import { FilePropertyManager } from "../../property/FilePropertyManager";
-import { Utils } from "src/Utils";
+import { FilePropertyUtils } from "src/utils/FilePropertyUtils";
+import { Utils } from "src/utils/Utils";
 import { HtmlGenerator } from "./HtmlGenerator";
 import { FormItem } from "../parser/WriteCraftItem";
 
@@ -33,7 +33,7 @@ export class TextHtmlGenerator extends HtmlGenerator {
         let content = "";
 
         // Attendre que la valeur soit lue
-        let value = await FilePropertyManager.readProperty(this.file, id);
+        let value = await FilePropertyUtils.readProperty(this.file, id);
 
         if (value) {
             if (link) {
@@ -54,7 +54,7 @@ export class TextHtmlGenerator extends HtmlGenerator {
         const field = blocHtml.querySelector(`#${this.formItem.id}`) as HTMLInputElement;
 
         // Initialize the field on the page loading
-        const text = (await FilePropertyManager.readProperty(this.file, field.id) || "") as string;
+        const text = (await FilePropertyUtils.readProperty(this.file, field.id) || "") as string;
         field.value = text.toString().replace("[[", "").replace("]]", "");
 
         // Add a listener to update the property when the field is modified
@@ -65,7 +65,7 @@ export class TextHtmlGenerator extends HtmlGenerator {
             if (isLink && value) {
                 value = "[[" + value + "]]";
             }
-            await FilePropertyManager.updateProperty(this.file, field.id, value);
+            await FilePropertyUtils.updateProperty(this.file, field.id, value);
         });
     }
 }

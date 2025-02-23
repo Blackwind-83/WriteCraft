@@ -1,7 +1,7 @@
 import { FormItem } from './WriteCraftItem';
 
-export class FormParser {
-    private static readonly elementRegex = /^(\w+)\s+(\w+)\s*\(([^)]*)\)\s*$/;
+export class WriteCraftSyntaxParser {
+    private static readonly elementRegex = /^([~\w]+)\s+(\w+)\s*\(([^)]*)\)\s*$/;
     private static readonly braceRegex = /\s*({|})\s*/;
 
 
@@ -24,13 +24,13 @@ export class FormParser {
             const line = lines[i];
             console.log(`🔑 Parsing ligne ${i + 1}:`, line);
 
-            const elementMatch = line.match(FormParser.elementRegex);
-            const braceMatch = line.match(FormParser.braceRegex);
+            const elementMatch = line.match(WriteCraftSyntaxParser.elementRegex);
+            const braceMatch = line.match(WriteCraftSyntaxParser.braceRegex);
 
             
             if (!braceMatch && !elementMatch) {
-                console.error(`❌ Erreur de syntaxe à la ligne ${i + 1} : format incorrect`);
-                throw new Error(`Syntaxe incorrecte à la ligne ${i + 1}. Vérifiez le format.`);
+                console.error(`❌ Erreur de syntaxe à la ligne ${i + 1} : format incorrect : '${line}'. `);
+                throw new Error(`Syntaxe incorrecte à la ligne ${i + 1}. Vérifiez le format : '${line}'. `);
             }
 
             if (elementMatch) {

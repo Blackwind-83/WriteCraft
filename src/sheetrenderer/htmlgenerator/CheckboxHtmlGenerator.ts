@@ -1,7 +1,7 @@
 import { TFile } from "obsidian";
 import NovelPlugin from "src/main";
-import { FilePropertyManager } from "../../property/FilePropertyManager";
-import { Utils } from "src/Utils";
+import { FilePropertyUtils } from "../../utils/FilePropertyUtils";
+import { Utils } from "src/utils/Utils";
 import { HtmlGenerator } from "./HtmlGenerator";
 import { FormItem } from "../parser/WriteCraftItem";
 import { WritecraftMode, WritecraftState } from "src/WritecraftState";
@@ -39,7 +39,7 @@ export class CheckboxHtmlGenerator extends HtmlGenerator {
         let content ="";
     
         // Lire la liste des valeurs cochées depuis le fichier
-        const selectedValues = (await FilePropertyManager.readProperty(this.file, id)) as string[];
+        const selectedValues = (await FilePropertyUtils.readProperty(this.file, id)) as string[];
     
         if (selectedValues) {
             // Transformer la liste en chaîne de caractères avec ", " comme séparateur
@@ -57,7 +57,7 @@ export class CheckboxHtmlGenerator extends HtmlGenerator {
 
     async initializeSelf(blocHtml: HTMLElement) {
         console.log("initializeSelf checkbox : " + this.formItem.id)
-        const eltList = (await FilePropertyManager.readProperty(this.file, this.formItem.id) || []) as string[];
+        const eltList = (await FilePropertyUtils.readProperty(this.file, this.formItem.id) || []) as string[];
         console.log(eltList)
 
         // For each options
@@ -69,7 +69,7 @@ export class CheckboxHtmlGenerator extends HtmlGenerator {
         
                 // Add a listener to update the property when the field is modified
                 Utils.addDebouncedEventListener(field, "change", async () => {
-                    let eltList = (await FilePropertyManager.readProperty(this.file, this.formItem.id) || []) as string[];
+                    let eltList = (await FilePropertyUtils.readProperty(this.file, this.formItem.id) || []) as string[];
                     const option = field.name;
                     if (field.checked) {
                         eltList.push(option);
@@ -77,7 +77,7 @@ export class CheckboxHtmlGenerator extends HtmlGenerator {
                     else {
                         eltList.remove(option);
                     }
-                    await FilePropertyManager.updateProperty(this.file, this.formItem.id, eltList);
+                    await FilePropertyUtils.updateProperty(this.file, this.formItem.id, eltList);
                 });
             });
         }

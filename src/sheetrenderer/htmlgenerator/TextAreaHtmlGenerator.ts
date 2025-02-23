@@ -1,7 +1,7 @@
 import { TFile } from "obsidian";
 import NovelPlugin from "src/main";
-import { FilePropertyManager } from "../../property/FilePropertyManager";
-import { Utils } from "src/Utils";
+import { FilePropertyUtils } from "src/utils/FilePropertyUtils";
+import { Utils } from "src/utils/Utils";
 import { HtmlGenerator } from "./HtmlGenerator";
 import { FormItem } from "../parser/WriteCraftItem";
 
@@ -32,7 +32,7 @@ export class TextAreaHtmlGenerator extends HtmlGenerator {
         let content = "";
     
         // Lire la valeur stockée dans le fichier
-        const value = (await FilePropertyManager.readProperty(this.file, id)) as string;
+        const value = (await FilePropertyUtils.readProperty(this.file, id)) as string;
         if (value) {
             const formattedValue = value.replace(/\n/g, "<br>");
         
@@ -53,12 +53,12 @@ export class TextAreaHtmlGenerator extends HtmlGenerator {
         const field = blocHtml.querySelector(`#${this.formItem.id}`) as HTMLTextAreaElement;
 
         // Initialize the field on the page loading
-        const text = (await FilePropertyManager.readProperty(this.file, field.id) || "") as string;
+        const text = (await FilePropertyUtils.readProperty(this.file, field.id) || "") as string;
         field.value = text;
     
         // Add a listener to update the property when the field is modified
         Utils.addDebouncedEventListener(field, "input", async () => {
-            await FilePropertyManager.updateProperty(this.file, field.id, field.value);
+            await FilePropertyUtils.updateProperty(this.file, field.id, field.value);
         });
     }
 }

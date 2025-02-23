@@ -2,7 +2,6 @@ import NovelPlugin from "src/main";
 import { TFile } from "obsidian";
 import { FormItem } from "../parser/WriteCraftItem";
 import { HtmlGenerator } from "./HtmlGenerator";
-import { WritecraftMode, WritecraftState } from "src/WritecraftState";
 
 export class DataListHtmlGenerator extends HtmlGenerator {
     constructor(plugin: NovelPlugin, file: TFile, formItem: FormItem) {
